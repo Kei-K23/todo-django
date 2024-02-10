@@ -30,7 +30,9 @@
   {% if todo|length %}
   <ul class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
     {% for t in todo %}
-    <li class="flex items-center justify-between">
+    <li
+      class="border-b gap-y-3 last:border-b-0 flex flex-col md:flex-row md:items-center md:justify-between {% if t.is_complete %}line-through{% endif %}"
+    >
       <div
         id="review-content-{{t.id}}"
         class="review-content flex items-center"
@@ -90,6 +92,20 @@
         id="review-actions-btns-{{t.id}}"
         class="flex items-center gpa-2 review-actions-btns"
       >
+        <form action="{% url 'complete' pk=t.id %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="_method" value="PUT" />
+          <button
+            type="submit"
+            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900"
+          >
+            {% if t.is_complete %}
+            <i class="fa-solid fa-rotate-left"></i>
+            {% else %}
+            <i class="fa-solid fa-check"></i>
+            {% endif %}
+          </button>
+        </form>
         <button
           type="button"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 edit-review-btn"

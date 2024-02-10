@@ -4,7 +4,7 @@ from .models import Todo
 
 
 def index(request):
-    todo = Todo.objects.order_by('-updated_at')
+    todo = Todo.objects.order_by('-created_at', 'is_complete')
     context = {'todo': todo}
     return render(request, 'index.html', context)
 
@@ -32,4 +32,13 @@ def delete(request, pk):
         todo = Todo.objects.get(id=pk)
         if todo:
             todo.delete()
+            return redirect('index')
+
+
+def complete(request, pk):
+    if request.POST.get('_method') == 'PUT':
+        todo = Todo.objects.get(id=pk)
+        if todo:
+            todo.is_complete = False if todo.is_complete else True
+            todo.save()
             return redirect('index')

@@ -1,5 +1,74 @@
 <!-- templates/index.html -->
 
 {% extends "_base.html" %} {% block content %}
-<h1 class="text-3xl text-green-800">Django + Tailwind CSS + Flowbite</h1>
+<h1 class="mb-6 text-3xl text-green-800 text-center">Todo Django App</h1>
+
+<form
+  class="mx-auto w-full sm:w-[75%] md:w-[65%] lg:w-[45%] flex gap-2 flex-col sm:flex-row"
+>
+  <input
+    type="text"
+    id="first_name"
+    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+    placeholder="e.g write some code..."
+    required
+  />
+  <button
+    type="submit"
+    class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+  >
+    Add
+  </button>
+</form>
+
+<div class="mx-auto w-full sm:w-[75%] md:w-[65%] lg:w-[45%] mt-4">
+  <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+    Your list:
+  </h2>
+  <ul class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
+    <li class="flex items-center">
+      <svg
+        class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path
+          d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+        />
+      </svg>
+      At least 10 characters
+    </li>
+    <li class="flex items-center">
+      <svg
+        class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path
+          d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+        />
+      </svg>
+      At least one lowercase character
+    </li>
+    <li class="flex items-center">
+      <svg
+        class="w-3.5 h-3.5 me-2 text-gray-500 dark:text-gray-400 flex-shrink-0"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path
+          d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+        />
+      </svg>
+      At least one special character, e.g., ! @ # ?
+    </li>
+  </ul>
+</div>
+
 {% endblock content %}

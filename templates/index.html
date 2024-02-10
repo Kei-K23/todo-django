@@ -1,5 +1,5 @@
 <!-- templates/index.html -->
-{% extends "_base.html" %} {% load date_filter %} {% block content %}
+{% extends "_base.html" %} {% block content %}
 <h1 class="mb-6 text-3xl text-green-800 text-center">Todo Django App</h1>
 
 <form
@@ -30,39 +30,122 @@
   {% if todo|length %}
   <ul class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
     {% for t in todo %}
-    <li class="flex items-center">
-      {% if t.is_complete %}
-      <svg
-        class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor"
-        viewBox="0 0 20 20"
+    <li class="flex items-center justify-between">
+      <div
+        id="review-content-{{t.id}}"
+        class="review-content flex items-center"
       >
-        <path
-          d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
-        />
-      </svg>
-      {% else %}
-      <svg
-        class="w-3.5 h-3.5 me-2 text-gray-500 dark:text-gray-400 flex-shrink-0"
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor"
-        viewBox="0 0 20 20"
+        {% if t.is_complete %}
+        <svg
+          class="w-3.5 h-3.5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+          />
+        </svg>
+        {% else %}
+        <svg
+          class="w-3.5 h-3.5 me-2 text-gray-500 dark:text-gray-400 flex-shrink-0"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+          />
+        </svg>
+        {% endif %}
+        <p>{{ t.todo }}</p>
+        <!-- Edit Review Form -->
+      </div>
+      <form
+        action="{% url 'update' pk=t.id %}"
+        class="hidden edit-review-form w-full"
+        id="edit-review-form-{{t.id}}"
+        method="POST"
       >
-        <path
-          d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+        {% csrf_token %}
+        <input type="hidden" name="_method" value="PUT" />
+        <input
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+          type="text"
+          name="todo"
+          value="{{t.todo}}"
         />
-      </svg>
-      {% endif %} {{ t.todo }} - {{ t.created_at|time_since }}
+
+        <div class="d-flex align-items-center gap-2 mt-2">
+          <button type="submit" class="text-green-500 hover:text-green-600">
+            Save Changes
+          </button>
+          <button type="button" class="close-edit-form">Cancel</button>
+        </div>
+      </form>
+
+      <div
+        id="review-actions-btns-{{t.id}}"
+        class="flex items-center gpa-2 review-actions-btns"
+      >
+        <button
+          type="button"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 edit-review-btn"
+          data-review-id="{{ t.id }}"
+        >
+          <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+        <form action="{% url 'delete' pk=t.id %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="_method" value="DELETE" />
+          <button
+            type="submit"
+            class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+          >
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </form>
+      </div>
     </li>
     {% endfor %}
   </ul>
-
   {% else %}
   <li class="flex items-center">No todo.</li>
   {% endif %}
 </div>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+
+<script>
+  // jQuery code to toggle edit review form
+  $(document).ready(function () {
+    $(".edit-review-btn").click(function () {
+      // reset other component into their previous state
+      $(".edit-review-form").addClass("hidden");
+      $(".review-content").removeClass("hidden");
+      $(".review-actions-btns").removeClass("hidden");
+
+      // perform on cliked review component
+      var reviewId = $(this).data("review-id");
+      $("#edit-review-form-" + reviewId).removeClass("hidden");
+      $("#review-content-" + reviewId).addClass("hidden");
+      $("#review-actions-btns-" + reviewId).addClass("hidden");
+    });
+
+    $(".close-edit-form").click(function () {
+      // reset other component into their previous state
+      $(".edit-review-form").addClass("hidden");
+      $(".review-content").removeClass("hidden");
+      $(".review-actions-btns").removeClass("hidden");
+    });
+  });
+</script>
 
 {% endblock content %}

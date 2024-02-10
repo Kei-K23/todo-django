@@ -1,4 +1,52 @@
-**/__pycache__
-/node_modules
-db.sqlite3
+# Python
+*.pyc
+*.pyo
+**/__pycache__/
 .venv
+# Virtual Environment
+venv/
+env/
+
+# Static files
+/static/
+.DS_Store
+
+# Log files
+*.log
+
+# Database
+*.sqlite3
+*.db
+
+# IDE/Editor specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.*.swp
+*.swo
+
+# Compiled files
+*.gz
+*.tgz
+*.zip
+*.rar
+
+# Dependency management
+pip-log.txt
+pip-wheel-metadata/
+pip-delete-this-directory.txt
+
+# Media
+/media/
+
+# Environment variables
+.env
+
+# Secrets
+*.secret
+*.key
+*.pem
+*.cer
+
+node_modules
